@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/screens/homepage.dart';
 import '../utils/constant.dart';
+import 'dart:async';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -9,6 +11,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    startTime();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = getScreenSize();
@@ -56,25 +64,22 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   RaisedButton(
                     elevation: 0,
+                    color: Color.fromARGB(248, 228, 187, 7),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(16.0),
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
+                      Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (_) => const HomePage(),
+                          builder: (context) => HomePage(),
                         ),
                       );
                     },
                     child: Text(
                       'Skip >>',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                      style: TextStyle(fontSize: 15, color: Colors.white),
                     ),
                   ),
                 ],
@@ -84,5 +89,18 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+
+  startTime() async {
+    var duration = Duration(seconds: 5);
+    return new Timer(duration, route);
+  }
+
+  route() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ));
   }
 }
