@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/screens/homepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/constant.dart';
 import 'dart:async';
 
@@ -91,9 +92,17 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  startTime() async {
+  Future startTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
     var duration = Duration(seconds: 5);
-    return new Timer(duration, route);
+    if (_seen) {
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new HomePage()));
+    } else {
+      await prefs.setBool('seen', true);
+      return new Timer(duration, route);
+    }
   }
 
   route() {
